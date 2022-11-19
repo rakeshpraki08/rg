@@ -1,0 +1,94 @@
+{% extends 'query_app/login_index.html' %}
+{% load static %}
+{% block title %} Login {% endblock %}
+
+{% block content %}
+ {% comment %} <div class="limiter">
+		<div class="container-login100">
+			<div class="wrap-login100">
+				<form class="login100-form validate-form" method ="POST" action="">
+					{% csrf_token %}
+
+					<span class="login100-form-title p-b-34 p-t-27">
+						Log in
+					</span>
+
+					<div class="wrap-input100 validate-input" data-validate = "Enter PG E-Mail id">
+						<input class="input100" type="text" name="email" placeholder="Enter PG Mail id">
+						<span class="focus-input100" data-placeholder="&#xf207;"></span>
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate="Enter password">
+						<input class="input100" type="password" name="password" placeholder="Password">
+						<span class="focus-input100" data-placeholder="&#xf191;"></span>
+					</div>
+					
+					<div class="" style="color: white; display: flex; justify-content: center">
+						<button type="submit" class="submit" name = "Login" style="
+              border-radius: 30px;
+              padding: 12px 35px 13px;
+              color: white;
+              box-shadow: 0px 0px 2px 0.7px;
+              background-color: lightseagreen;
+              font-size: 18px;
+              font-weight: 500;
+              letter-spacing: 0.8px;
+              align-items: center;
+            ">Log In
+					</button>
+					</div>
+
+
+
+					{%  for message in messages %}
+						<p class='django-message' style = "color:crimson; margin-top:20px;"> {{message}} </p>
+					{% endfor %}
+
+					<div class="text-center p-t-30" style = "color:white;">
+						Don't have an Account?
+						<a class="txt1" href="{% url 'query_app:register-page' %}" 
+						style="color: white; font-size: 14px; text-decoration: underline">
+						Register
+						</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div> {% endcomment %}
+
+
+	{% comment %} new form {% endcomment %}
+
+	<div class="login-container">
+		<h2>Login</h2>
+		<form method ="POST" action="">
+			{% csrf_token %}
+
+			{%  for message in messages %}
+				<div class="login-error-message"> 
+					{{message}} 
+				</div>
+			{% endfor %}
+
+		  <div class="user-box">
+			<input type="text" name="email" required="">
+			<label>Email Id</label>
+		  </div>
+		  <div class="user-box">
+			<input type="password" name="password" required="">
+			<label>Password</label>
+		  </div>
+		  <div class="login-submit">
+			<button type="submit" class="login-button">
+			Submit
+			</button>
+
+		  </div>
+		  <div class="login-register-section">
+			<div>Don't have an Account,<a href="{% url 'query_app:register-page' %}" class="login-register-text">Request</a></div>
+		  </div>
+		  
+		</form>
+	  </div>
+
+{% endblock %}

@@ -1,0 +1,264 @@
+{% extends 'base_html.html' %}
+{% load static %}
+
+{% block search %}
+<div class="search-container">
+    <div class="search-wrapper">
+        <div class="search-row">
+            <form>
+            <input  class = "search-input" type="search-text" name="q" placeholder="Search {{region}}" />
+            </form>
+            <div class="search-icon">
+                <i class="fa fa-search"></i>
+                <i class="fa-solid fa-xmark"></i>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock%}
+
+{% block content %}
+
+{% comment %} <div class = 'row'> {% endcomment %}
+
+    {% comment %} <div class = 'col-5 '> {% endcomment %}
+        <h1 class = 'heading'> 
+        {{ region }} Reports
+        </h1>
+    {% comment %} </div> {% endcomment %}
+
+    {% comment %} <div class = "col-4" style="margin-top: 40px">
+        <form class="form-inline my-2 my-lg-0 form" style="display: flex">
+            <input class="form-control mr-sm-2" name="q" type="search" placeholder="Search {{region}} Reports" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+          </form>
+    </div> {% endcomment %}
+
+{% comment %} </div> {% endcomment %}
+
+{% comment %} Status message {% endcomment %}
+<div id = "w-s-message">
+
+</div>
+
+
+
+<br>
+
+<div>
+    {%  for message in messages %}
+        <p class='django-message'> {{message}} </p>
+    {% endfor %}
+</div>
+
+<div class="container" style = "width:auto; margin-top:30px; padding-left: 42px;">
+    {% for i in report_data %}
+
+    <div class="row" style="height:70px; ">
+            <div class= "col-5" style = "font-size:18px; padding-top:10px;">
+                {{i.Report_Name}}
+            </div>
+
+            <div class = "col-3" style="font-size: 18px; padding-top:10px;" href = "{% url 'query_app:get_Ajax_LastRun' i.id %}"  id="{{i.id}}-lastRun">
+                {{ i.Last_Run}}
+            </div>
+        {% comment %} {{i.Task_Status}} {% endcomment %}
+        {% comment %} {% if i.Task_Status == "Not Running" or i.Task_Status == "Completed"%} {% endcomment %}
+            {% comment %} <div class = "col-2" >
+                <form class="float-right" action = "{% url 'query_app:fetch_data' i.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn" style = "background-color: lightseagreen;
+                    padding: 9px 16px 9px;
+                    color: lightcyan;
+                    font-size: 18px;
+                    font-weight: 500;">Fetch Data</button>
+                </form>
+            </div> {% endcomment %}
+
+            <div class = "col-2" onclick="myFunction(event)">
+                    <button type="submit" class= "btn" id = "{{ i.id }}-run"  style = "background-color: lightseagreen;
+                    padding: 6px 16px 6px;
+                    color: lightcyan;
+                    font-size: 18px;
+                    font-weight: 500;">Run Job</button>
+            </div>
+
+            
+
+            
+
+            
+        {% comment %} {% elif i.Task_Status == "Running" %} {% endcomment %}
+        {% comment %} <div class = "col-2" >
+            <form class="float-right" action = "{% url 'query_app:fetch_data' i.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn" style = "background-color: lightseagreen;
+                padding: 9px 16px 9px;
+                color: lightcyan;
+                font-size: 18px;
+                font-weight: 500;">Fetching </button>
+            </form>
+        </div> {% endcomment %}
+       
+
+        {% comment %} {% endif %} {% endcomment %}
+
+
+
+
+            {% comment %} </div>
+        </div> {% endcomment %}
+
+
+
+
+
+        
+
+
+            <div class = "col-2" >
+                {% comment %} <button type="button">
+                    <a href="{% url 'query_app:extract' i.id %}">Download</a>
+                </button> {% endcomment %}
+
+                <form class="float-right" action = "{% url 'query_app:extract' i.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn" id = "{{ i.id }}-download" style = "background-color: lightseagreen;
+                    padding: 6px 16px 6px;
+                    color: lightcyan;
+                    font-size: 18px;
+                    font-weight: 500;">Download</button>
+                </form>
+            </div>
+
+    
+          
+
+    {% comment %} </div> {% endcomment %}
+
+    </div>
+    
+    
+        {% empty %}
+        <li class="list-group-item">
+        <span class="font-italic" style="font-size:12.5px;"><i>No Reports Added</i></span>
+        </li>
+
+
+    {%endfor%}
+
+</div>
+
+<script>
+    
+    var Socket;
+    window.onload = function() {
+        Socket = new WebSocket('ws://'+window.location.host+'/ws/fetch-data/');
+        console.log("socket connected", Socket)
+      };
+
+    function myFunction(event) { 
+        let x = event.target;
+        let y = parseInt(x.id)
+        console.log("button click id ", x.id, typeof(x.id), y, typeof(y))
+        //BtnDisable = document.getElementById(x.id);     
+
+        //client to server
+        console.log("client to server");
+        Socket.send(JSON.stringify({
+            'message': y
+        }));
+
+        //server to client
+        Socket.onmessage = function(e) {
+            console.log("inside server to client")
+            var data = JSON.parse(e.data);
+            var status = data['message']['status'];
+            var btn = data['message']['btn'];
+            let id = data['message']['id'];
+
+            BtnDisable = document.getElementById(id+"-run");
+            BtnDisable_download = document.getElementById(id+"-download");
+            console.log("server to client message value",  status);
+            document.querySelector('#w-s-message').innerText = status;
+
+            console.log("server to client btn value",  btn);
+            if (btn == false){
+                BtnDisable.disabled = true;
+                BtnDisable_download.disabled = true;
+                BtnDisable.innerText = "In Progress";
+
+            }
+            else if (btn == true){
+                BtnDisable.disabled = false;
+                BtnDisable_download.disabled = false;
+                BtnDisable.innerText = "Completed";
+            }
+            else if (btn == "completed"){
+                BtnDisable.innerText = "Run Job";
+                ajaxLastRun(id)
+
+            }
+
+
+
+        };
+
+            Socket.onclose = function(e) {
+            console.error('Access socket closed unexpectedly');
+        };      
+    }
+
+
+    // ajax
+    function ajaxLastRun(id) {
+        $.ajax({
+            type: "GET",
+            // Our sample url to make request 
+            url: $('#'+id+'-lastRun').attr("href"), 
+            
+            // Type of Req  uest
+            
+            // Function to call when to
+            // request is ok 
+            success: function (response) {
+                lastRun = response.lastRun
+                dateTime = new Date(lastRun)
+            
+                month = dateTime.toLocaleString('en-US', {month: 'short'});
+                date = dateTime.getDate();
+                year = dateTime.getFullYear();
+                time = formatAMPM(dateTime)
+                console.log(month+'. '+date+', '+year+', '+time)
+                $("#"+id+"-lastRun").empty()
+                $("#"+id+"-lastRun").append(month+'. '+date+', '+year+', '+time)
+            },
+            // Error handling 
+            error: function (error) {
+                console.log(`Error ${error}`);
+            }
+        });
+    }
+
+    function formatAMPM(date) {
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var ampm = hours >= 12 ? 'p.m.' : 'a.m.';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        minutes = minutes < 10 ? '0'+minutes : minutes;
+        var strTime = hours + ':' + minutes + ' ' + ampm;
+        return strTime;
+      }
+
+   
+
+    
+
+
+</script>
+
+
+
+
+{% endblock %}

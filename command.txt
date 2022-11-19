@@ -1,0 +1,5 @@
+celery -A rg.celeryrg worker --pool=solo -l info
+python manage.py runserver
+
+celerybeat: celery -A channels_celery_heroku_project beat -l INFO 
+celeryworker2: celery -A channels_celery_heroku_project.celery worker & celery -A channels_celery_heroku_project beat -l INFO & wait -n

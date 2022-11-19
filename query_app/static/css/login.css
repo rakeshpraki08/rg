@@ -1,0 +1,234 @@
+.login-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 362px;
+    padding: 40px;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    box-sizing: border-box;
+    box-shadow: 0 0 5px 1px rgb(0 0 0 / 60%);
+    border-radius: 10px;
+    background-image: url(https://www.freshworksmedia.com/uploads/1/8/6/1/1861318/brand_orig.jpg);
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+
+
+
+  
+  .login-container h2 {
+    margin: 0 0 30px;
+    padding: 0;
+    color: #333;
+    text-align: center;
+  }
+  
+  .login-container .user-box {
+    position: relative;
+  }
+  
+  .login-container .user-box input {
+    width: 100%;
+    padding: 10px 0;
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 30px;
+    border: none;
+    border-bottom: 1px solid #333;
+    outline: none;
+    background: transparent;
+  }
+
+
+
+
+
+  .login-container .user-box input:focus{
+    border-bottom: 1px solid #333 !important;
+  }
+  .login-container .user-box label {
+    position: absolute;
+    top:0;
+    left: 0;
+    padding: 10px 0;
+    font-size: 16px;
+    color: #333;
+    pointer-events: none;
+    transition: .5s;
+  }
+  
+  .login-container .user-box input:focus ~ label,
+  .login-container .user-box input:valid ~ label {
+    top: -20px;
+    left: 0;
+    color: #fec771;
+    font-size: 14px;
+  }
+  
+  .login-submit{
+    display: flex;
+    justify-content: center;
+  }
+
+  .login-button{
+    border: 1px solid #333;
+    padding: 10px 24px;
+    border-radius: 8px;
+  }
+
+  .login-button:hover{
+      color:  #fec771;
+    /* background-color: #fec771; */
+    /* color:white; */
+    border-color: #fec771;
+  }
+  
+  .login-container form a {
+    display: inline-block;
+    padding: 10px 20px;
+    color: #333;
+    font-size: 16px;
+    text-decoration: none;
+      border: 1px solid #333;
+    text-transform: uppercase;
+    margin-top: 16px;
+    letter-spacing: 2px;
+    border-radius: 5px
+  }
+  
+ 
+  .login-register-text{
+    border: none !important;
+    font-size: 12px !important;
+   text-transform: capitalize !important;
+    margin-left: -16px;
+    text-decoration: underline !important;
+    letter-spacing: 1px !important;
+  }
+
+  .login-register-text:hover {
+    color: #fec771;
+  }
+  
+  .login-register-section{
+    display: flex;
+    justify-content: center;
+    font-size: 12px;
+  }
+
+  .login-error-message {
+    color:crimson;
+    padding-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    font-size:12px;
+  }
+
+  .check-box-field {
+    display: flex;
+    justify-content:space-between;
+    color: orange;
+    font-size: x-small;
+  }
+  .check-box-field label{
+    display: flex;
+    padding: 2px;
+    justify-content:stretch;
+  }
+
+  .check-box-field input{
+    margin-right: 4px;
+  }
+  
+
+  /* .login-container a:hover {
+    background: #fec771;
+    color: #333;
+    border-radius: 5px;
+    box-shadow: 0 0 5px #fec771,
+                0 0 25px #fec771,
+                0 0 50px #fec771,
+                0 0 100px #fec771;
+  } */
+  
+  /* .login-box a span {
+    position: absolute;
+    display: block;
+  } */
+  
+  /* .login-box a span:nth-child(1) {
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #fec771);
+    animation: btn-anim1 1s linear infinite;
+  } */
+  
+  /* @keyframes btn-anim1 {
+    0% {
+      left: -100%;
+    }
+    50%,100% {
+      left: 100%;
+    }
+  } */
+  
+  /* .login-box a span:nth-child(2) {
+    top: -100%;
+    right: 0;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(180deg, transparent, #fec771);
+    animation: btn-anim2 1s linear infinite;
+    animation-delay: .25s
+  } */
+  
+  /* @keyframes btn-anim2 {
+    0% {
+      top: -100%;
+    }
+    50%,100% {
+      top: 100%;
+    }
+  } */
+  
+  /* .login-box a span:nth-child(3) {
+    bottom: 0;
+    right: -100%;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(270deg, transparent, #fec771);
+    animation: btn-anim3 1s linear infinite;
+    animation-delay: .5s
+  } */
+  
+  /* @keyframes btn-anim3 {
+    0% {
+      right: -100%;
+    }
+    50%,100% {
+      right: 100%;
+    }
+  }
+  
+  .login-box a span:nth-child(4) {
+    bottom: -100%;
+    left: 0;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(360deg, transparent, #fec771);
+    animation: btn-anim4 1s linear infinite;
+    animation-delay: .75s
+  } */
+  
+  /* @keyframes btn-anim4 {
+    0% {
+      bottom: -100%;
+    }
+    50%,100% {
+      bottom: 100%;
+    }
+  } */
+  

@@ -1,0 +1,107 @@
+{% extends 'base_html.html' %}
+{% load static %}
+
+{% block search %}
+<div class="search-container">
+    <div class="search-wrapper">
+        <div class="search-row">
+            <form>
+            <input class = "search-input" type="search-text" name="q" placeholder="Search Users" />
+            </form>
+            <div class="search-icon">
+                <i class="fa fa-search"></i>
+                <i class="fa-solid fa-xmark"></i>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock%}
+
+{% block content %}
+
+
+<h1 class = 'heading'> 
+        Pending User Request
+</h1>  
+
+      <!-- --------------- -->
+      
+      <section class="table-section">
+      <div class="tbl-header">
+      <table cellpadding="0" cellspacing="0" border="0">
+      <thead>
+        <tr>
+          <th>User</th>
+          <th>Region</th>
+          {% comment %} <th>Edit Region</th> {% endcomment %}
+          <th>Accept</th>
+          <th>Reject</th>
+        </tr>
+      </thead>
+      </table>
+      </div>
+      <div class="tbl-content">
+      <table cellpadding="0" cellspacing="0" border="0">
+      <tbody>
+        {% for user in pending_user%}
+        <tr>
+          <td>{{user.email}}</td>
+          <td>
+            {% for user_regions in user.regions.all %}
+              {{user_regions}}<br>
+            {% endfor %}
+          </td>
+          {% comment %} <td>
+            <a href="{% url 'query_app:user_region_request_edit' user.id  %}" class="btn text-secondary px-0"  onclick="openForm_edit(event)" id = "edit_click">
+              <svg class="edit-icon" xmlns="http://www.w3.org/2000/svg" fill="#000000" viewBox="0 0 30 30" width="30px" height="30px">    <path d="M 22.828125 3 C 22.316375 3 21.804562 3.1954375 21.414062 3.5859375 L 19 6 L 24 11 L 26.414062 8.5859375 C 27.195062 7.8049375 27.195062 6.5388125 26.414062 5.7578125 L 24.242188 3.5859375 C 23.851688 3.1954375 23.339875 3 22.828125 3 z M 17 8 L 5.2597656 19.740234 C 5.2597656 19.740234 6.1775313 19.658 6.5195312 20 C 6.8615312 20.342 6.58 22.58 7 23 C 7.42 23.42 9.6438906 23.124359 9.9628906 23.443359 C 10.281891 23.762359 10.259766 24.740234 10.259766 24.740234 L 22 13 L 17 8 z M 4 23 L 3.0566406 25.671875 A 1 1 0 0 0 3 26 A 1 1 0 0 0 4 27 A 1 1 0 0 0 4.328125 26.943359 A 1 1 0 0 0 4.3378906 26.939453 L 4.3632812 26.931641 A 1 1 0 0 0 4.3691406 26.927734 L 7 26 L 5.5 24.5 L 4 23 z"/></svg>
+            </a>
+          </td> {% endcomment %}
+          <td><a href="{% url 'query_app:accept_user_request' user.id %}"> Accept</a> </td>
+          <td>
+                <a href="{% url 'query_app:reject_user_request' user.id %}"> Reject</a>
+          </td>
+        </tr>
+      
+        {% empty %}
+          <li class="list-group-item">
+          <span class="no-data"><i>No Pending Users</i></span>
+          </li>
+          
+        {% endfor %}
+      </tbody>
+      </table>
+      </div>
+      </section>
+      
+      
+      <!-- follow me template -->
+      {% comment %} <div class="made-with-love">
+      Made with
+      <i>♥</i> by
+      <a target="_blank" href="https://codepen.io/nikhil8krishnan">Nikhil Krishnan</a>
+      </div> {% endcomment %}
+      
+      
+      
+      
+      {% comment %} ------------------- {% endcomment %}
+      
+      <script>
+      function form_t(event) {
+      
+      $("#contactForm").toggle();
+      
+      }
+      
+      
+      // -------------
+      
+      $(window).on("load resize ", function() {
+      var scrollWidth = $('.tbl-content').width() - $('.tbl-content table').width();
+      $('.tbl-header').css({'padding-right':scrollWidth});
+      }).resize();
+      
+      </script>
+
+      
+{% endblock %}

@@ -1,0 +1,271 @@
+{% extends 'base_html.html' %}
+{% load static %}
+
+{% block search %}
+
+<div class="search-container">
+    <div class="search-wrapper">
+        <div class="search-row">
+            <form>
+            <input class = "search-input" type="search-text" name="q" placeholder="Search {{region}}" />
+            </form>
+            <div class="search-icon">
+                <i class="fa fa-search"></i>
+                <i class="fa-solid fa-xmark"></i>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock%}
+
+{% block content %}
+
+        <h1 class = 'heading'> 
+        {{ region }} Reports
+        </h1>
+
+<div id = "w-s-message">
+
+</div>
+
+<br>
+
+<div>
+    {%  for message in messages %}
+        <p class='django-message'> {{message}} </p>
+    {% endfor %}
+</div>
+
+
+{% comment %} ---------------- {% endcomment %}
+
+
+<section class="table-section">
+    {% comment %} <h1>Fixed Table header</h1> {% endcomment %}
+    <div class="tbl-header">
+    <table cellpadding="0" cellspacing="0" border="0">
+      <thead>
+        <tr >
+          <th>Report Name</th>
+          <th>Last Run</th>
+          <th>Download</th>
+          <th>Run Job</th>
+        </tr>
+      </thead>
+    </table>
+    </div>
+    <div class="tbl-content">
+    <table cellpadding="0" cellspacing="0" border="0">
+      <tbody>
+        {% for i in report_data %}
+        <tr>
+          <td>{{i.Report_Name}}</td>
+          <td href = "{% url 'query_app:get_Ajax_LastRun' i.id %}"  id="{{i.id}}-lastRun">
+            {{ i.Last_Run}} 
+        </td>
+          
+
+          <td>
+            <form class="" action = "{% url 'query_app:extract' i.id %}" method="post">
+                {% csrf_token %}
+                <button type = 'submit' class = "run-job-btn" id = "{{ i.id }}-btn-download" >
+                <svg  class="file-download-icon" id = "{{ i.id }}-download" xmlns="http://www.w3.org/2000/svg" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 441 512.02"><path d="M324.87 279.77c32.01 0 61.01 13.01 82.03 34.02 21.09 21 34.1 50.05 34.1 82.1 0 32.06-13.01 61.11-34.02 82.11l-1.32 1.22c-20.92 20.29-49.41 32.8-80.79 32.8-32.06 0-61.1-13.01-82.1-34.02-21.01-21-34.02-50.05-34.02-82.11s13.01-61.1 34.02-82.1c21-21.01 50.04-34.02 82.1-34.02zM243.11 38.08v54.18c.99 12.93 5.5 23.09 13.42 29.85 8.2 7.01 20.46 10.94 36.69 11.23l37.92-.04-88.03-95.22zm91.21 120.49-41.3-.04c-22.49-.35-40.21-6.4-52.9-17.24-13.23-11.31-20.68-27.35-22.19-47.23l-.11-1.74V25.29H62.87c-10.34 0-19.75 4.23-26.55 11.03-6.8 6.8-11.03 16.21-11.03 26.55v336.49c0 10.3 4.25 19.71 11.06 26.52 6.8 6.8 16.22 11.05 26.52 11.05h119.41c2.54 8.79 5.87 17.25 9.92 25.29H62.87c-17.28 0-33.02-7.08-44.41-18.46C7.08 432.37 0 416.64 0 399.36V62.87c0-17.26 7.08-32.98 18.45-44.36C29.89 7.08 45.61 0 62.87 0h173.88c4.11 0 7.76 1.96 10.07 5l109.39 118.34c2.24 2.43 3.34 5.49 3.34 8.55l.03 119.72c-8.18-1.97-16.62-3.25-25.26-3.79v-89.25zm-229.76 54.49c-6.98 0-12.64-5.66-12.64-12.64 0-6.99 5.66-12.65 12.64-12.65h150.49c6.98 0 12.65 5.66 12.65 12.65 0 6.98-5.67 12.64-12.65 12.64H104.56zm0 72.3c-6.98 0-12.64-5.66-12.64-12.65 0-6.98 5.66-12.64 12.64-12.64h142.52c3.71 0 7.05 1.6 9.37 4.15a149.03 149.03 0 0 0-30.54 21.14H104.56zm0 72.3c-6.98 0-12.64-5.66-12.64-12.65 0-6.98 5.66-12.64 12.64-12.64h86.2c-3.82 8.05-6.95 16.51-9.29 25.29h-76.91zm264.81 31.11c3.56.15 6.09 1.33 7.54 3.55 3.98 5.94-1.44 11.81-5.19 15.94l-40.04 40.71c-4.32 4.26-9.32 4.31-13.64 0l-41.01-41.82c-3.51-3.95-7.86-9.36-4.19-14.83 1.49-2.22 4-3.4 7.56-3.55h19.74v-32.45c0-5.82 4.81-10.69 10.7-10.69h28.06c5.9 0 10.71 4.8 10.71 10.69v32.45h19.76z"/></svg>
+                </button>
+                {% comment %} <button type="submit" class="btn" id = "{{ i.id }}-download" style = "background-color: lightseagreen;
+                padding: 6px 16px 6px;
+                color: lightcyan;
+                font-size: 18px;
+                font-weight: 500;">Download</button> {% endcomment %}
+            </form>
+
+          </td>
+          <td>
+            <button class = "run-job-btn" id = "{{ i.id }}-btn-run" onclick="myFunction({{i.id}})" / >
+            <svg  id = "{{ i.id }}-run" class="run-job-icon"   xmlns="http://www.w3.org/2000/svg" data-name="Layer 1" viewBox="0 0 112.62 120.72" ><title>circle arrow</title><path d="M11.64,100.12l-.4-.47-1.06,8.63a5.08,5.08,0,0,1-1.92,3.41A5.11,5.11,0,0,1,0,107L2.79,84.65v-.07a3.28,3.28,0,0,1,.08-.41h0A5.09,5.09,0,0,1,9,80.39q11.22,2.53,22.42,5.15a5,5,0,0,1,3.17,2.25,5.14,5.14,0,0,1,.64,3.84v0a5,5,0,0,1-2.25,3.16,5.08,5.08,0,0,1-3.83.65c-3.31-.75-6.62-1.52-9.92-2.28a40.71,40.71,0,0,0,2.84,3,50.09,50.09,0,0,0,26.23,13.49,48.67,48.67,0,0,0,14.71.34A47.35,47.35,0,0,0,77,106h0q2.52-1.19,4.83-2.54c1.56-.93,3.07-1.92,4.51-3a50.8,50.8,0,0,0,8.56-7.88,48.92,48.92,0,0,0,6.39-9.45l.56-1.1,10,2.69-.8,1.66a58.64,58.64,0,0,1-7.9,12.24,61.28,61.28,0,0,1-10.81,10.1c-1.68,1.23-3.46,2.4-5.32,3.5s-3.73,2.07-5.74,3a58,58,0,0,1-17,5,58.56,58.56,0,0,1-17.79-.39,60.21,60.21,0,0,1-31.58-16.26c-1.2-1.16-2.26-2.31-3.24-3.45ZM101,20.6l.4.47,1-8.63a5.11,5.11,0,1,1,10.14,1.26l-2.74,22.37,0,.07c0,.13,0,.27-.07.41h0a5.09,5.09,0,0,1-6.08,3.78c-7.47-1.69-15-3.4-22.42-5.15a5,5,0,0,1-3.16-2.25,5.1,5.1,0,0,1-.65-3.84v0a5,5,0,0,1,2.25-3.16,5.1,5.1,0,0,1,3.84-.65c3.31.75,6.61,1.52,9.92,2.28-.84-1-1.77-2-2.84-3.05a50.09,50.09,0,0,0-12.13-8.73A49.49,49.49,0,0,0,64.37,11a48.6,48.6,0,0,0-14.7-.34,47.26,47.26,0,0,0-14,4.1h0q-2.53,1.18-4.83,2.54c-1.57.93-3.07,1.92-4.52,3a50.34,50.34,0,0,0-8.55,7.88,48,48,0,0,0-6.39,9.45l-.57,1.1L.76,36l.8-1.66A58.9,58.9,0,0,1,9.46,22.1,61.63,61.63,0,0,1,20.27,12q2.54-1.85,5.32-3.5c1.81-1.06,3.73-2.07,5.74-3a58,58,0,0,1,17-5A58.56,58.56,0,0,1,66.16.89a59.77,59.77,0,0,1,17,5.74A60.4,60.4,0,0,1,97.75,17.15c1.19,1.16,2.26,2.31,3.24,3.45Z"/></svg>
+            {% comment %} </button> {% endcomment %}
+            {% comment %} <button type="submit" class= "btn" id = "{{ i.id }}-run"  style = "background-color: lightseagreen;
+            padding: 6px 16px 6px;
+            color: lightcyan;
+            font-size: 18px;
+            font-weight: 500;">Run Job
+            </button> {% endcomment %}
+          </td>
+           
+        </tr>
+    
+        {% empty %}
+        <li class="list-group-item">
+        <span class="no-data"><i>No Reports Added</i></span>
+        </li>
+          
+        {% endfor %}
+      </tbody>
+    </table>
+    </div>
+    </section>
+    
+    
+    
+
+{% comment %} ---------- {% endcomment %}
+
+<script>
+    
+    var Socket;
+    window.onload = function() {
+        Socket = new WebSocket('ws://'+window.location.host+'/ws/fetch-data/');
+        console.log("socket connected", Socket)
+      };
+
+    function myFunction(id) {
+        let y = id;
+        console.log("new id ", id, typeof(id))
+        //let x = event.target;
+        //let y = parseInt(x.id);
+        //console.log("button click id ", x.id, typeof(x.id), y, typeof(y), "event ", event, "eventTarget ", event.target)
+        //BtnDisable = document.getElementById(x.id);     
+
+        //client to server
+        console.log("client to server");
+        Socket.send(JSON.stringify({
+            'message': y
+        }));
+
+        //server to client
+        Socket.onmessage = function(e) {
+            console.log("inside server to client")
+            var data = JSON.parse(e.data);
+            var status = data['message']['status'];
+            var btn = data['message']['btn'];
+            let id = data['message']['id'];
+
+            BtnDisable_run_btn = document.getElementById(id+"-btn-run");
+            BtnDisable_download_btn = document.getElementById(id+"-btn-download");
+            BtnDisable = document.getElementById(id+"-run");
+            BtnDisable_download = document.getElementById(id+"-download");
+            console.log("server to client message value",  status);
+            document.querySelector('#w-s-message').innerText = status;
+
+            console.log("server to client btn value",  btn);
+            if (btn == false){
+                BtnDisable_run_btn.disabled = true;
+                BtnDisable_download_btn.disabled = true;
+                //BtnDisable.disabled = true;
+                //BtnDisable_download.disabled = true;
+                //BtnDisable.innerText = "In Progress";
+                $('#'+id+"-btn-run").addClass("rotate");
+                $('#'+id+"-btn-run").addClass("cursor-notAllowed");
+
+                $('#'+id+"-btn-download").addClass("cursor-notAllowed");
+
+                //$('#'+id+"-download").addClass("cursor");
+                //$('#'+id+"-run").off('click');
+                //$('#'+id+"-run").prop("disabled",false);
+
+            }
+              else if (btn == true){
+                BtnDisable_run_btn.disabled = false;
+                BtnDisable_download_btn.disabled = false;
+                //BtnDisable.disabled = false;
+                //BtnDisable_download.disabled = false;
+                //BtnDisable.innerText = "Completed";
+                $('#'+id+"-btn-run").removeClass("rotate");
+                $('#'+id+"-btn-run").removeClass("cursor-notAllowed");
+
+                $('#'+id+"-btn-download").removeClass("cursor-notAllowed");
+                document.querySelector('#w-s-message').innerText = ""
+                //$('#'+id+"-download").addClass("cursor");
+                //$('#'+id+"-run").off('click');
+                //$('#'+id+"-run").prop("disabled",false);
+                ajaxLastRun(id)
+                
+                
+            }
+
+            else if(btn == "error") {
+              $('#'+id+"-btn-run").removeClass("rotate");
+            }
+            /*else if (btn == "completed"){
+              $('#'+id+"-run").removeClass("rotate");
+              $('#'+id+"-run").removeClass("cursor");
+              $('#'+id+"-download").removeClass("cursor");
+              $('#'+id+"-run").on('click');
+                //BtnDisable.innerText = "Run Job";
+                ajaxLastRun(id)
+
+            }*/
+
+
+
+        };
+
+            Socket.onclose = function(e) {
+            console.error('Access socket closed unexpectedly');
+        };      
+    }
+
+
+    // ajax
+    function ajaxLastRun(id) {
+        $.ajax({
+            type: "GET",
+            // Our sample url to make request 
+            url: $('#'+id+'-lastRun').attr("href"), 
+            
+            // Type of Req  uest
+            
+            // Function to call when to
+            // request is ok 
+            success: function (response) {
+                lastRun = response.lastRun
+                dateTime = new Date(lastRun)
+            
+                month = dateTime.toLocaleString('en-US', {month: 'short'});
+                date = dateTime.getDate();
+                year = dateTime.getFullYear();
+                time = formatAMPM(dateTime)
+                console.log(month+'. '+date+', '+year+', '+time)
+                $("#"+id+"-lastRun").empty()
+                $("#"+id+"-lastRun").append(month+'. '+date+', '+year+', '+time)
+            },
+            // Error handling 
+            error: function (error) {
+                console.log(`Error ${error}`);
+            }
+        });
+    }
+
+    function formatAMPM(date) {
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var ampm = hours >= 12 ? 'p.m.' : 'a.m.';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        minutes = minutes < 10 ? '0'+minutes : minutes;
+        var strTime = hours + ':' + minutes + ' ' + ampm;
+        return strTime;
+      }
+
+   
+{% comment %} ----------table script----- {% endcomment %}
+function form_t(event) {
+    
+    $("#contactForm").toggle();
+  
+  }
+  
+  
+  // -------------
+  
+  $(window).on("load resize ", function() {
+  var scrollWidth = $('.tbl-content').width() - $('.tbl-content table').width();
+  $('.tbl-header').css({'padding-right':scrollWidth});
+  }).resize();
+
+
+</script>
+
+
+
+
+{% endblock %}

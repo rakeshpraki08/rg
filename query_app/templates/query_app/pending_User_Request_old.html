@@ -1,0 +1,51 @@
+{% extends 'base_html.html' %}
+
+{% block content %}
+
+<h1 class = 'heading'>  Pending User Request
+</h1>
+
+<div class = "container" style = "">
+        <div class = "row">
+                <div class = "col-4">
+                        User
+                </div>
+
+                <div class = "col-2">
+                        Accept
+                </div>
+
+                <div class = "col-2">
+                        Reject
+                </div>
+
+        </div>
+</div>
+
+<div class = "container" style = "">
+        {% for user in pending_user%}
+        <div class = "row">
+                <div class = "col-4">
+                        {{user.email}}
+                </div>
+
+                <div class = "col-2">
+                        <a href="{% url 'query_app:accept_user_request' user.id %}"> Accept</a>
+                </div>
+
+                <div class = "col-2">
+                        <a href="{% url 'query_app:reject_user_request' user.id %}"> Reject</a>
+                </div>
+
+        </div>
+        {% empty %}
+        <li class="list-group-item">
+        <span class="font-italic" style="font-size:12.5px;"><i>No Users Added</i></span>
+        </li>
+        {% endfor %}
+</div>
+
+
+
+
+{% endblock %}

@@ -1,0 +1,143 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+  	<title>Reporter Genie</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+
+    <link rel="stylesheet" href= "{% static 'css/search.css' %}">
+	<link rel="stylesheet" href= "{% static 'css/style.css' %}">
+    <link rel="stylesheet" href= "{% static 'Home.css' %}">
+    <link rel="stylesheet" href= "{% static 'manage_users.css' %}">
+    <link rel="stylesheet" href= "{% static 'manage_regions.css' %}">
+    <link rel="stylesheet" href= "{% static 'pending-user.css' %}">
+
+    
+
+
+
+    
+
+	</head>
+	<body>
+			{% comment %} {% for i in user %}
+				<h1>{{i}}</h1>
+				{% endfor %} {% endcomment %}
+		
+
+	<section class="">
+
+		<div class="container">
+			<nav class="navbar navbar-expand-lg ftco_navbar ftco-navbar-light" id="ftco-navbar">
+		    <div class="container">
+		    	<a class="navbar-brand" href="{% url 'query_app:base_html' %}">reporter genie <i class="fa fa-edit genie-icon"></i>  </a>
+				{% comment %} <i class="fa fa-edit genie-icon"></i> {% endcomment %}
+		      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+		        <span class="fa fa-bars"></span> Menu
+		      </button>
+		      <div class="collapse navbar-collapse" id="ftco-nav">
+		        <ul class="navbar-nav ml-auto mr-md-3">
+		        	<li class="nav-item active"><a href="{% url 'query_app:base_html' %}" class="nav-link">Home</a></li>
+
+		        	<li class="dropdown nav-item d-md-flex align-items-center">
+						<a href="#" class="dropdown-toggle nav-link d-flex align-items-center justify-content-center nav-link" id="dropdown04" data-toggle="dropdown" aria-expanded="false">
+						  Reports
+						  <b class="caret"></b>
+						</a>
+                        
+						<div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown04">
+                            {% for region in request.user.regions.all%}
+						  <a href="{% url 'query_app:base_html_region' region %}" class="dropdown-item">{{ region }}</a>
+                            {% endfor %}
+                        </div>
+                        
+					</li>
+
+                    {% if request.user.is_superuser or request.user.is_staff %}
+
+		        	<li class="dropdown nav-item d-md-flex align-items-center">
+						<a href="#" class="dropdown-toggle nav-link d-flex align-items-center justify-content-center nav-link" id="dropdown04" data-toggle="dropdown" aria-expanded="false">
+						  Tools
+						  <b class="caret"></b>
+						</a>
+						<div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown04">
+						  <a href="#" class="dropdown-item">DB Refresh</a>
+
+						</div>
+					</li>
+
+                    {% endif %}
+
+		        	{% if request.user.is_superuser %}
+
+					<li class="dropdown nav-item d-md-flex align-items-center">
+						<a href="#" class="dropdown-toggle nav-link d-flex align-items-center justify-content-center nav-link" id="dropdown04" data-toggle="dropdown" aria-expanded="false">
+						  Edit
+						  <b class="caret"></b>
+						</a>
+						<div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown04">
+						  <a href="{% url 'query_app:manage_users' %}" class="dropdown-item">Manage Users</a>
+						  <a href="{% url 'query_app:pending_user_request' %}" class="dropdown-item">Pending Request</a>
+						  <a href="{% url 'query_app:manage_regions' %}" class="dropdown-item">Manage Regions</a>
+						  <a href="{% url 'query_app:manage_reports' %}" class="dropdown-item">Manage Reports</a>
+						</div>
+					</li>
+
+
+                    {% endif %}
+                    <li class="dropdown nav-item d-md-flex align-items-center">
+                    {% block search %}
+                    {% endblock %}
+                    </li>
+                    
+
+		          <li class="dropdown nav-item d-md-flex align-items-center">
+                <a href="#" class="dropdown-toggle nav-link d-flex align-items-center justify-content-center icon-cart nav-link " id="dropdown04" data-toggle="dropdown" aria-expanded="false">
+                  <i class="fa fa-user"></i>
+                  <b class="caret"></b>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right header-logout" aria-labelledby="dropdown04">
+                  <p class="dropdown-item" style="pointer-events: none; margin-bottom:0;">Hello, {{request.user}}</p>
+                  <a href="{% url 'query_app:logout-page' %}" class="dropdown-item">Logout</a>
+  
+                </div>
+              </li>
+		        </ul>
+		      </div>
+		    </div>
+		  </nav>
+    <!-- END nav -->
+  </div>
+
+  {% block content %}
+  {% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+	</section>
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    {% comment %} <script src="{% static 'js/popper.js' %}"></script> {% endcomment %}
+    {% comment %} <script src="{% static 'js/bootstrap.min.js' %}"></script> {% endcomment %}
+    <script src="{% static 'js/main.js' %}"></script>
+	
+
+	
+
+
+	</body>
+</html>
+

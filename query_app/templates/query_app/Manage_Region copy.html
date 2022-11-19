@@ -1,0 +1,488 @@
+{% extends 'base_html.html' %} 
+{% load static %}
+
+{% block search %}
+<div class="search-container">
+    <div class="search-wrapper">
+        <div class="search-row">
+            <form>
+            <input class = "search-input" type="search-text" name="q" placeholder="Search Regions" />
+            </form>
+            <div class="search-icon">
+                <i class="fa fa-search"></i>
+                <i class="fa-solid fa-xmark"></i>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock%}
+
+{% block content %}
+
+
+<div class="body-heading-section">
+  <h1 class = 'heading'> 
+    Manage Regions
+  </h1>  
+
+  <div class="nav-item d-md-flex align-items-center">
+    <a id="formButton" onclick="openForm(event)" href="#" class=" nav-link d-flex align-items-center justify-content-center icon-cart nav-link " id="dropdown04" data-toggle="dropdown" aria-expanded="false">
+      <i class="fa fa-plus"></i>
+      <b class="caret"></b>
+    </a>
+  </div>
+
+</div>
+
+
+{% comment %} -----form----- {% endcomment %}
+<div id="myModal" class="modal">
+  <!-- Modal content -->
+  {% comment %} <div class="modal-content"> {% endcomment %}
+    
+    <div class="login-container">
+      <span class = "form-close" onclick="closeForm(event)" >&times;</span>
+      
+   <form  id="contactForm" action = "" method="post" autocomplete="off">
+    {% csrf_token %}
+	  <div class="user-box">
+		{% comment %} <input type="text" name="" required=""> {% endcomment %}
+    {{form.Region}}
+		<label>Enter region</label>
+	  </div>
+	  <div class="user-box">
+		{% comment %} <input type="text" name="" required=""> {% endcomment %}
+    {{form.DB_Host}}
+		<label>host</label>
+	  </div>
+	  <div class="user-box">
+		{% comment %} <input type="text" name="" required=""> {% endcomment %}
+    {{form.DB_Service_Name}}
+		<label>service name</label>
+	  </div>
+    <div class="user-box">
+      {% comment %} <input type="text" name="" required=""> {% endcomment %}
+      {{form.DB_Port}}
+      <label>port</label>
+      </div>
+      <div class="login-submit">
+        <button type="submit" class="login-button">
+          Submit
+        </button>
+      </div>
+
+	  
+	</form>
+  {% comment %} </div> {% endcomment %}
+</div>
+
+</div>
+
+
+{% comment %} <div>
+  <button type="button" id="formButton" onclick="form_t(event)">Toggle Form!</button>
+
+  <form id="contactForm" action="" method="post" autocomplete="off" style = "display:none;">
+    {% csrf_token %}
+    <div class="form-floating mb-3">
+      {{form.Region}}
+      <label for="region">Region</label>
+      <div class="invalid-feedback" data-sb-feedback="region:required">
+        Region is required.
+      </div>
+    </div>
+    <div class="form-floating mb-3">
+      {{form.DB_Host}}
+      <label for="DB_Host">DB_Host</label>
+      <div class="invalid-feedback" data-sb-feedback="DB_Host:required">
+        DB_Host is required.
+      </div>
+    </div>
+    <div class="form-floating mb-3">
+      {{form.DB_Service_Name}}
+      <label for="DB_Service_Name">DB_Service_Name</label>
+      <div class="invalid-feedback" data-sb-feedback="DB_Service_Name:required">
+        DB_Service_Name is required.
+      </div>
+    </div>
+    <div class="form-floating mb-3">
+      {{form.DB_Port}}
+      <label for="DB_Port">DB_Port</label>
+      <div class="invalid-feedback" data-sb-feedback="DB_Port:required">
+        DB_Port is required.
+      </div>
+    </div>
+
+    <div class="d-grid" style="margin-top: 32px;">
+      <button
+        class="btn"
+        style="
+          background-color: lightseagreen;
+          padding: 12px 14px 13px;
+          color: lightcyan;
+          font-size: 18px;
+          font-weight: 500;
+        "
+        id="submitButton"
+        type="submit"
+      >
+        Submit
+      </button>
+    </div>
+  </form>
+</div> {% endcomment %}
+
+
+<!-- --------------- -->
+
+<section class="manage-region-table-section">
+  <!--for demo wrap-->
+  {% comment %} <h1>Fixed Table header</h1> {% endcomment %}
+  <div class="tbl-header">
+    <table cellpadding="0" cellspacing="0" border="0">
+      <thead>
+        <tr>
+          <th>Region</th>
+          <th>DB_Host</th>
+          <th>DB_Service_Name</th>
+          <th>DB_Port</th>
+          <th>Edit</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+    </table>
+  </div>
+  <div class="tbl-content">
+    <table cellpadding="0" cellspacing="0" border="0">
+      <tbody>
+        {% for list in list %}
+        <tr>
+          <td>{{ list.Region }}</td>
+          <td>{{ list.DB_Host }} </td>
+          <td>{{ list.DB_Service_Name }}</td>
+          <td>{{ list.DB_Port }}</td>
+          <td>
+            <a
+            href="{% url 'query_app:manage_regions_update' list.Region  %}"
+            class="btn text-secondary px-0">
+            <svg class="edit-icon" xmlns="http://www.w3.org/2000/svg" fill="#000000" viewBox="0 0 30 30" width="30px" height="30px">    <path d="M 22.828125 3 C 22.316375 3 21.804562 3.1954375 21.414062 3.5859375 L 19 6 L 24 11 L 26.414062 8.5859375 C 27.195062 7.8049375 27.195062 6.5388125 26.414062 5.7578125 L 24.242188 3.5859375 C 23.851688 3.1954375 23.339875 3 22.828125 3 z M 17 8 L 5.2597656 19.740234 C 5.2597656 19.740234 6.1775313 19.658 6.5195312 20 C 6.8615312 20.342 6.58 22.58 7 23 C 7.42 23.42 9.6438906 23.124359 9.9628906 23.443359 C 10.281891 23.762359 10.259766 24.740234 10.259766 24.740234 L 22 13 L 17 8 z M 4 23 L 3.0566406 25.671875 A 1 1 0 0 0 3 26 A 1 1 0 0 0 4 27 A 1 1 0 0 0 4.328125 26.943359 A 1 1 0 0 0 4.3378906 26.939453 L 4.3632812 26.931641 A 1 1 0 0 0 4.3691406 26.927734 L 7 26 L 5.5 24.5 L 4 23 z"/></svg>
+            </a>
+          </td>
+          <th>
+            <form
+            action="{% url 'query_app:delete_region' list.Region %}"
+            method="post"
+          >
+            {% csrf_token %}
+            <button type="submit" class="btn" style="padding: 0px">
+              <svg style="height: 22px;
+              margin-top: -10px;
+              fill: crimson" xmlns="http://www.w3.org/2000/svg" fill="#000000" viewBox="0 0 30 30" width="30px" height="30px">    <path d="M 14.984375 2.4863281 A 1.0001 1.0001 0 0 0 14 3.5 L 14 4 L 8.5 4 A 1.0001 1.0001 0 0 0 7.4863281 5 L 6 5 A 1.0001 1.0001 0 1 0 6 7 L 24 7 A 1.0001 1.0001 0 1 0 24 5 L 22.513672 5 A 1.0001 1.0001 0 0 0 21.5 4 L 16 4 L 16 3.5 A 1.0001 1.0001 0 0 0 14.984375 2.4863281 z M 6 9 L 7.7929688 24.234375 C 7.9109687 25.241375 8.7633438 26 9.7773438 26 L 20.222656 26 C 21.236656 26 22.088031 25.241375 22.207031 24.234375 L 24 9 L 6 9 z"/></svg>
+            </button>
+          </form>
+          </th>
+          
+         
+        </tr>
+        {% empty %}
+        <li class="list-group-item">
+          <span class="font-italic" style="font-size:12.5px;"><i>No Regions Added</i></span>
+        </li>
+          
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+
+<!-- follow me template -->
+{% comment %} <div class="made-with-love">
+  Made with
+  <i>♥</i> by
+  <a target="_blank" href="https://codepen.io/nikhil8krishnan">Nikhil Krishnan</a>
+</div> {% endcomment %}
+
+
+
+
+{% comment %} ------------------- {% endcomment %}
+
+<script>
+  {% comment %} function form_t(event) {
+
+      $("#contactForm").toggle();
+
+  } {% endcomment %}
+
+
+  //------
+
+    /*function form_t(event) {
+    
+    $("#contactForm").toggle();
+    
+    }*/
+    
+    
+    {% comment %} $(window).on("load resize ", function() {
+    var scrollWidth = $('.tbl-content').width() - $('.tbl-content table').width();
+    $('.tbl-header').css({'padding-right':scrollWidth});
+    }).resize(); {% endcomment %}
+    
+    
+    
+    
+    var modal = document.getElementById('myModal');
+    console.log('modal', modal);
+    var btn = document.getElementById("formButton");
+    var span = document.getElementsByClassName("close");
+    
+    function openForm(event) {
+      console.log("inside open")
+    
+      $("#myModal").toggle();
+      
+      }
+    
+      function closeForm(event) {
+        console.log("inside close")
+      
+        $("#myModal").toggle();
+        
+        }
+    
+    /*btn.onclick = function() {
+        modal.style.display = "block";
+    }*/
+    {% comment %} span.onclick = function() {
+      console.log("inside span")
+        modal.style.display = "none";
+    } {% endcomment %}
+    window.onclick = function(event) {
+      console.log("inside window")
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+    document.onkeydown = function (e) {
+      console.log("inside onkeydown")
+      switch (e.keyCode) {
+        case 27:
+            modal.style.display = "none";
+            break;
+        default:
+            return;
+      }
+    };
+
+
+
+ // -------------
+
+ $(window).on("load resize ", function() {
+  var scrollWidth = $('.tbl-content').width() - $('.tbl-content table').width();
+  $('.tbl-header').css({'padding-right':scrollWidth});
+}).resize();
+
+</script>
+
+
+{% comment %} <div class="container px-5 my-5"> {% endcomment %}
+  {% comment %} <form id="contactForm" action="" method="post" autocomplete="off">
+    {% csrf_token %}
+    <div class="form-floating mb-3">
+      {{form.Region}}
+      <label for="region">Region</label>
+      <div class="invalid-feedback" data-sb-feedback="region:required">
+        Region is required.
+      </div>
+    </div>
+    <div class="form-floating mb-3">
+      {{form.DB_Host}}
+      <label for="DB_Host">DB_Host</label>
+      <div class="invalid-feedback" data-sb-feedback="DB_Host:required">
+        DB_Host is required.
+      </div>
+    </div>
+    <div class="form-floating mb-3">
+      {{form.DB_Service_Name}}
+      <label for="DB_Service_Name">DB_Service_Name</label>
+      <div class="invalid-feedback" data-sb-feedback="DB_Service_Name:required">
+        DB_Service_Name is required.
+      </div>
+    </div>
+    <div class="form-floating mb-3">
+      {{form.DB_Port}}
+      <label for="DB_Port">DB_Port</label>
+      <div class="invalid-feedback" data-sb-feedback="DB_Port:required">
+        DB_Port is required.
+      </div>
+    </div>
+
+    <div class="d-grid" style="margin-top: 32px;">
+      <button
+        class="btn"
+        style="
+          background-color: lightseagreen;
+          padding: 12px 14px 13px;
+          color: lightcyan;
+          font-size: 18px;
+          font-weight: 500;
+        "
+        id="submitButton"
+        type="submit"
+      >
+        Submit
+      </button>
+    </div>
+  </form>
+
+  <div class="container" style="margin-top: 48px; padding-left: 0">
+    <li class="list-group-item" style="border-bottom: 1px solid green;">
+      <div class="row">
+        <div class="col-2">
+          <h6
+            class=""
+            aria-hidden="true"
+            style="
+              font-weight: inherit;
+              font-style: inherit;
+              font-size: 20px;
+              letter-spacing: 0.2px;
+            "
+          >
+            Region</h6
+          >
+        </div>
+        <div class="col-3">
+          <h6
+            class=""
+            aria-hidden="true"
+            style="
+              font-weight: inherit;
+              font-style: inherit;
+              font-size: 20px;
+              letter-spacing: 0.2px;
+            "
+          >
+            DB_Host</h6
+          >
+        </div>
+        <div class="col-3">
+          <h6
+            class=""
+            aria-hidden="true"
+            style="
+              font-weight: inherit;
+              font-style: inherit;
+              font-size: 20px;
+              letter-spacing: 0.2px;
+            "
+          >
+            DB_Service_Name</i
+          >
+        </div>
+        <div class="col-2">
+          <h6
+            class=""
+            aria-hidden="true"
+            style="
+              font-weight: inherit;
+              font-style: inherit;
+              font-size: 20px;
+              letter-spacing: 0.2px;
+            "
+          >
+            DB_Port</h6
+          >
+        </div>
+        <div class="col-1">
+          <h6
+            class=""
+            aria-hidden="true"
+            style="
+              font-weight: inherit;
+              font-style: inherit;
+              font-size: 20px;
+              letter-spacing: 0.2px;
+   
+            "
+          >
+            Edit</h6>
+        </div>
+
+        <div class="col-1">
+          <h6 class="" aria-hidden="true" style  = "
+              font-weight: inherit;
+              font-style: inherit;
+              font-size: 20px;
+              letter-spacing: 0.2px;
+            "
+          >
+            Delete</h6>
+        </div>
+      </div>
+    </li>
+  </br>
+
+    {% for list in list %}
+
+    <li class="list-group-item">
+      <div class="row">
+        <div class="col-2" style="margin-bottom: 4px; font-size: 16px;">
+          <p class="" aria-hidden="true" style="padding: 0 5px 0;"> {{ list.Region }}</p>
+        </div>
+        <div class="col-3" style="margin-bottom: 4px; font-size: 16px;">
+          <p class="" aria-hidden="true" style="padding: 0 5px 0;"> {{ list.DB_Host }}</p>
+        </div>
+        <div class="col-3" style="margin-bottom: 4px; font-size: 16px;">
+          <p class="" aria-hidden="true" style="padding: 0 5px 0;">
+            {{ list.DB_Service_Name }}</p
+          >
+        </div>
+        <div class="col-2" style="margin-bottom: 4px; font-size: 16px;">
+          <p class="" aria-hidden="true" style="padding: 0 0 0 18px;"> {{ list.DB_Port }}</p>
+        </div>
+        <div class="col-1" style="text-align: center">
+          <a
+            href="{% url 'query_app:manage_regions_update' list.Region  %}"
+            class="btn text-secondary px-0"
+          >
+ 
+
+            <svg style="height: 22px;
+            margin-top: -14px;
+            fill: currentColor;
+            margin-left: -10px;" xmlns="http://www.w3.org/2000/svg" fill="#000000" viewBox="0 0 30 30" width="30px" height="30px">    <path d="M 22.828125 3 C 22.316375 3 21.804562 3.1954375 21.414062 3.5859375 L 19 6 L 24 11 L 26.414062 8.5859375 C 27.195062 7.8049375 27.195062 6.5388125 26.414062 5.7578125 L 24.242188 3.5859375 C 23.851688 3.1954375 23.339875 3 22.828125 3 z M 17 8 L 5.2597656 19.740234 C 5.2597656 19.740234 6.1775313 19.658 6.5195312 20 C 6.8615312 20.342 6.58 22.58 7 23 C 7.42 23.42 9.6438906 23.124359 9.9628906 23.443359 C 10.281891 23.762359 10.259766 24.740234 10.259766 24.740234 L 22 13 L 17 8 z M 4 23 L 3.0566406 25.671875 A 1 1 0 0 0 3 26 A 1 1 0 0 0 4 27 A 1 1 0 0 0 4.328125 26.943359 A 1 1 0 0 0 4.3378906 26.939453 L 4.3632812 26.931641 A 1 1 0 0 0 4.3691406 26.927734 L 7 26 L 5.5 24.5 L 4 23 z"/></svg>
+          </a>
+        </div>
+
+        <div class="col-1" style="text-align: center">
+          <form
+            class="float-right"
+            action="{% url 'query_app:delete_region' list.Region %}"
+            method="post"
+            style="margin-top: 3px; margin-left: 4px;"
+          >
+            {% csrf_token %}
+            <button type="submit" class="btn" style="padding: 0px">
+ 
+              <svg style="height: 22px;
+              margin-top: -10px;
+              fill: crimson" xmlns="http://www.w3.org/2000/svg" fill="#000000" viewBox="0 0 30 30" width="30px" height="30px">    <path d="M 14.984375 2.4863281 A 1.0001 1.0001 0 0 0 14 3.5 L 14 4 L 8.5 4 A 1.0001 1.0001 0 0 0 7.4863281 5 L 6 5 A 1.0001 1.0001 0 1 0 6 7 L 24 7 A 1.0001 1.0001 0 1 0 24 5 L 22.513672 5 A 1.0001 1.0001 0 0 0 21.5 4 L 16 4 L 16 3.5 A 1.0001 1.0001 0 0 0 14.984375 2.4863281 z M 6 9 L 7.7929688 24.234375 C 7.9109687 25.241375 8.7633438 26 9.7773438 26 L 20.222656 26 C 21.236656 26 22.088031 25.241375 22.207031 24.234375 L 24 9 L 6 9 z"/></svg>
+            </button>
+          </form>
+        </div>
+      </div>
+    </li>
+
+    {% empty %}
+    <li class="list-group-item">
+      <span class="font-italic" style="font-size:12.5px;"><i>No Regions Added</i></span>
+    </li>
+
+    {% endfor %}
+  </div> {% endcomment %}
+
+{% endblock %}

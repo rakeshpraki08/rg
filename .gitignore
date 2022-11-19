@@ -1,0 +1,6 @@
+/static/**
+!/static
+__pycache__
+.vscode
+.venv
+query_app/static

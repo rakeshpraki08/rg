@@ -1,0 +1,161 @@
+{% extends 'query_app/login_index.html' %}
+{% load static %}
+{% block title %} Request {% endblock %}	
+
+{% block content %}
+
+
+
+
+{% comment %} <div class="limiter">
+	<div class="container-login100">
+		<div class="wrap-login100"  style="
+        background: linear-gradient(to bottom, #20b2aa 0%, #11a39b 100%);
+        width: 30%;
+		height: 
+        box-shadow: 0px 0px 8px 2px darkslategrey;
+      ">
+			<form method = "POST" action"" class="login100-form validate-form">
+				{% csrf_token %}
+
+				<span class="login100-form-title p-b-34 p-t-27">
+					Register
+				</span>
+
+				<div>
+					{%  for message in messages %}
+						<p class='django-message'> {{message}} </p>
+					{% endfor %}
+				</div>
+
+
+				<div class="wrap-input100 validate-input" data-validate = "Enter E-mail">
+					{{ form.email }}
+					<span class="focus-input100" data-placeholder="&#xf207;"></span>
+					
+				</div>
+
+				<div class="wrap-input100 validate-input" data-validate="Enter password">
+					{{ form.password1 }}
+					<span class="focus-input100" data-placeholder="&#xf191;"></span>
+					
+				</div>
+
+				<div class="wrap-input100 validate-input" data-validate="Enter password">
+					{{ form.password2 }}
+					<span class="focus-input100" data-placeholder="&#xf191;"></span>
+					
+				</div>
+				
+				<div class="contact100-form-checkbox">
+					{{ form.is_staff }}
+					
+					<label class="label-checkbox100" for="ckb1">
+						Need DB Refresh tool access?
+					</label>
+				</div>
+
+				<div class="" style="color: white; display: flex; justify-content: center">
+					<button type="submit" class="submit" name = "Login" style="
+		  border-radius: 30px;
+		  padding: 12px 35px 13px;
+		  color: white;
+		  box-shadow: 0px 0px 2px 0.7px;
+		  background-color: lightseagreen;
+		  font-size: 18px;
+		  font-weight: 500;
+		  letter-spacing: 0.8px;
+		  align-items: center;
+		">Register
+				</button>
+				</div>
+
+
+				<p style = "color:crimson; margin-top:20px;"> {{ form.errors }} </p>
+
+				<div class="text-center" style = "color:white;">
+					Already have an Account?
+					<a class="txt1" href="{% url 'query_app:login-page'%}" style = "text-decoration:underline;">
+						Login
+					</a>
+				</div>
+
+			</form>
+		</div>
+	</div>
+</div> {% endcomment %}
+
+{% comment %} new register form {% endcomment %}
+
+<div class="login-container">
+	<h2>Request</h2>
+	<form method = "POST" action"">
+		{% csrf_token %}
+		{%  for message in messages %}
+				<div class="login-error-message"> 
+					{{message}} 
+				</div>
+			{% endfor %}
+			
+				<div class="login-error-message"> 
+					{{form.errors}} 
+				</div>
+			
+
+	  <div class="user-box">
+		{% comment %} <input type="text" name="" required=""> {% endcomment %}
+		{{ form.email }}
+		<label>Enter E-mail</label>
+	  </div>
+
+	  <div class="user-box">
+		{% comment %} <input type="password" name="" required=""> {% endcomment %}
+		{{ form.password1 }}
+		<label>Enter password</label>
+	  </div>
+
+	  <div class="user-box">
+		{% comment %} <input type="password" name="" required=""> {% endcomment %}
+		{{ form.password2 }}
+		<label>Confirm password</label>
+	  </div>
+
+	  <div class="check-box-field">
+		{% comment %} <input type="password" name="" required=""> {% endcomment %}
+		{% comment %} <label>Regions</label> {% endcomment %}
+		<div>
+		{{ form.regions }}
+		
+	  	</div>
+
+	  <div>
+			<label>
+				{{ form.is_staff }}
+				Staff User
+			</label>
+	  </div>
+	</div>
+
+	  <div class="login-submit">
+		<button type ='submit' class="login-button">
+		Submit
+		</button>
+	  </div>
+	  
+	  <div class="login-register-section">
+		<div>Already have an Account?<a class="login-register-text" href="{% url 'query_app:login-page'%}">Login</a></div>
+	  </div>
+	  
+	</form>
+  </div>
+
+<script>
+	window.onload = function() {
+		document.getElementById("email-registration").removeAttribute("type");
+		document.getElementById("id_regions").removeAttribute("type");
+        console.log("register remove email type attribute")
+      };
+
+	</script>
+
+{% endblock %}
